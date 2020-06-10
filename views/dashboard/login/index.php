@@ -106,7 +106,7 @@
 				title: title,
 				text: msg,
 				timer: 1500,
-				footer: 'Sanematour',
+				footer: 'Andalalin',
 				showCancelButton: false,
 				showConfirmButton: false
 			}).then(function() {
@@ -135,7 +135,10 @@ if (isset($_POST['login'])) {
 	if ($querylogin->num_rows > 0) {
 		$dataUser = $querylogin->fetch_assoc();
 		if (md5($_POST['password']) == $dataUser['katasandi']) {
-			$_SESSION['nip'] = $dataUser['nip'];  ?>
+			$_SESSION['nip'] = $dataUser['nip'];
+			$_SESSION['nama'] = $dataUser['nama'];
+			$_SESSION['jabatan'] = $dataUser['jabatan'];
+			$_SESSION['level'] = $dataUser['level'];  ?>
 			<script>
 				success_alert('Berhasil', 'NIK atau NIP ditemukan!')
 			</script>

@@ -1,3 +1,3 @@
 <?php
-$koneksi = new koneksi;
+$koneksi = new koneksi();
 $koneksi->Logout();

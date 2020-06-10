@@ -1,26 +1,27 @@
 <?php
+define("BASEURL", "http://localhost/andalalin/");
 class index
 {
+
     function index()
     {
         $_SESSION['nip'] = isset($_SESSION['nip']) ? $_SESSION['nip'] : '';
 
         require_once "class/koneksi.php";
         require_once "class/pengguna.php";
-        require_once "class/perusahaan.php";
         require_once "class/pemohon.php";
+        require_once "class/perusahaan.php";
         require_once "class/rekomendasi.php";
         require_once "class/tinjauan.php";
+        require_once "class/saran.php";
 
-        // if (file_exists('class/pengguna.php')) {
-        //     echo "<script> alert ('oke');</script>";
-        // }
         $koneksi = new koneksi();
         $pengguna = new pengguna();
         $perusahaan = new perusahaan();
         $pemohon = new pemohon();
-        $rekomendasi = new  rekomendasi();
-        $tinjauan = new  tinjauan();
+        $rekomendasi = new rekomendasi();
+        $tinjauan = new tinjauan();
+        $saran = new saran();
 
         $_GET['p'] = isset($_GET['p']) ? $_GET['p'] : false;
 ?>
@@ -30,14 +31,14 @@ class index
         <head>
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="description" content="Andalali">
+            <meta name="description" content="Andalalin">
             <meta name="description" content="Jl. Karawang">
             <meta name="keywords" content="dishub">
             <meta name="author" content="stmik kharisma">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <link rel="icon" type="image/png" sizes="16x16" href="http://localhost/andalalin/images/kharisma.png">
             <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-            <title>Andalalin</title>
+            <title>ANDALALIN</title>
 
             <link rel="stylesheet" type="text/css" href="http://localhost/andalalin/assets/login/css/util.css">
             <link rel="stylesheet" type="text/css" href="http://localhost/andalalin/assets/login/css/main.css">
@@ -46,8 +47,6 @@ class index
             <!-- Font Awesome -->
             <link rel="stylesheet" href="http://localhost/andalalin/assets/admin-lte-new/plugins/fontawesome-free/css/all.min.css">
 
-            <!-- Select2 -->
-            <link rel="stylesheet" href="http://localhost/andalalin/assets/admin-lte-new/plugins/select2/css/select2.min.css">
             <!-- Theme style -->
             <link rel="stylesheet" href="http://localhost/andalalin/assets/admin-lte-new/dist/css/adminlte.min.css">
             <!-- Google Font: Source Sans Pro -->
@@ -59,10 +58,13 @@ class index
             <link rel="stylesheet" href="http://localhost/andalalin/assets/admin-lte-new/fontawesome/fonts_google.css">
 
             <link rel="stylesheet" href="http://localhost/andalalin/assets/admin-lte-new/plugins/pace-progress/themes/yellow/pace-theme-flat-top.css">
+
         </head>
         <?php
         if ($_SESSION['nip'] == '') {
             self::form_login();
+        } elseif ($_GET['p'] == 'logout') {
+            include_once "views/pengguna/logout.php";
         } else {
         ?>
 
@@ -108,7 +110,7 @@ class index
                             </li>
                             <li class="nav-item">
                                 <a href="http://localhost/andalalin/index.php?p=logout" class="nav-link">
-                                    <i class="fa fa-power-off"></i>
+                                    <i class="fa fa-power-off" id="logout"></i>
                                 </a>
                             </li>
                         </ul>
@@ -129,41 +131,37 @@ class index
 
                             <nav class="mt-2">
                                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                                    <li class="nav-item has-treeview menu-open">
-                                        <a href="#" class="nav-link active">
+                                    <li class="nav-item has-treeview">
+                                        <a href="http://localhost/andalalin/index.php" class="nav-link">
                                             <i class="nav-icon fa fa-home"></i>
                                             <p>
-                                                Dashboard <i class="fas fa-angle-left right"></i>
+                                                Dashboard
                                             </p>
                                         </a>
-
-                                        <ul class="nav nav-treeview">
-
-                                            <li class="nav-item">
-                                                <a href="http://localhost/andalalin/index.php" class="nav-link active">
-                                                    <i class="fas fa-circle nav-icon text-sm"></i>
-                                                    <p>Home</p>
-                                                </a>
-                                            </li>
-                                        </ul>
                                     </li>
-
-                                    <li class="nav-item has-treeview ">
-                                        <a href="#" class="nav-link ">
-                                            <i class="nav-icon fa fa-users"></i>
+                                    <li class="nav-item has-treeview">
+                                        <a href="http://localhost/andalalin/index.php?p=verifikasi" class="nav-link">
+                                            <i class="nav-icon fa fa-check"></i>
                                             <p>
-                                                Data Pengguna <i class="fas fa-angle-left right"></i>
+                                                Verifikasi Permohonan
                                             </p>
                                         </a>
-
-                                        <ul class="nav nav-treeview">
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link ">
-                                                    <i class="far fa-circle nav-icon text-sm"></i>
-                                                    <p>Pengguna</p>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                    </li>
+                                    <li class="nav-item has-treeview">
+                                        <a href="http://localhost/andalalin/index.php?p=verifikasi" class="nav-link">
+                                            <i class="nav-icon fa fa-bus-alt"></i>
+                                            <p>
+                                                Tinjau Permohonan
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item has-treeview">
+                                        <a href="http://localhost/andalalin/index.php?p=verifikasi" class="nav-link">
+                                            <i class="nav-icon fa fa-balance-scale"></i>
+                                            <p>
+                                                Rekomendasi
+                                            </p>
+                                        </a>
                                     </li>
                                 </ul>
                             </nav>
@@ -175,122 +173,22 @@ class index
                         <section class="content-header">
                             <div class="container-fluid">
                                 <div class="row mb-2">
-                                    <div class="col-sm-6">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <ol class="breadcrumb float-sm-right">
-                                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                            <li class="breadcrumb-item active">Home</li>
-                                        </ol>
-                                    </div>
                                 </div>
                             </div><!-- /.container-fluid -->
                         </section>
 
                         <!-- Main content -->
                         <section class="content text-sm">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="card">
-                                            <div class="card-header p-2">
-                                                <ul class="nav nav-pills">
-                                                    <li class="nav-item"><a class="nav-link active" href="#timeline" data-toggle="tab">Timeline</a></li>
-                                                </ul>
-                                            </div><!-- /.card-header -->
-                                            <div class="card-body">
-                                                <div class="tab-content">
-                                                    <!-- /.tab-pane -->
-                                                    <div class="tab-pane active" id="timeline">
-                                                        <!-- The timeline -->
-                                                        <div class="timeline timeline-inverse">
-                                                            <!-- timeline time label -->
-                                                            <div class="time-label">
-                                                                <span class="bg-danger">
-                                                                    Pendaftaran Online
-                                                                </span>
-                                                            </div>
-                                                            <!-- /.timeline-label -->
-                                                            <!-- timeline item -->
-                                                            <div>
-                                                                <i class="fas fa-user bg-info"></i>
-
-                                                                <div class="timeline-item">
-                                                                    <span class="time"><i class="far fa-clock"></i> 12:05</span>
-                                                                    <h3 class="timeline-header"><a href="#">Hai, <strong><em>Administrator</em></strong> Selamat Datang di Website ANDALALIN</a></h3>
-                                                                    <div class="timeline-body">
-                                                                        Semua pemohon mendaftarkan dirinya melalui website resmi
-                                                                    </div>
-                                                                    <div class="timeline-footer">
-                                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-link"></i>&nbsp; Link Email</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- END timeline item -->
-                                                            <!-- timeline item -->
-                                                            <div>
-                                                                <i class="fas fa-check bg-warning"></i>
-
-                                                                <div class="timeline-item">
-                                                                    <span class="time"><i class="far fa-clock"></i> 27 mins ago</span>
-
-                                                                    <h3 class="timeline-header"><a href="#">Administrator</a> </h3>
-
-                                                                    <div class="timeline-body">
-                                                                        login untuk melengkapi syarat-syarat yang lain.
-                                                                    </div>
-                                                                    <div class="timeline-footer">
-                                                                        <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- END timeline item -->
-                                                            <!-- timeline time label -->
-                                                            <div class="time-label">
-                                                                <span class="bg-success">
-                                                                    Pengisian Permohonan
-                                                                </span>
-                                                            </div>
-                                                            <!-- /.timeline-label -->
-                                                            <!-- timeline item -->
-                                                            <div>
-                                                                <i class="fas fa-users bg-purple"></i>
-
-                                                                <div class="timeline-item">
-                                                                    <span class="time"><i class="far fa-clock"></i> 2 days ago</span>
-
-                                                                    <h3 class="timeline-header"><a href="#">Administrator</a> akan check semua dokumen yang anda sudah submit</h3>
-
-                                                                    <div class="timeline-body">
-                                                                        Setelah diverifikasi system akan memberi notifikasi
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- END timeline item -->
-                                                            <div>
-                                                                <i class="far fa-clock bg-gray"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- /.tab-pane -->
-                                                </div>
-                                                <!-- /.tab-pane -->
-                                            </div>
-                                            <!-- /.tab-content -->
-                                        </div><!-- /.card-body -->
-                                    </div>
-                                </div>
-                            </div>
+                            <?php $this->loader(); ?>
+                        </section>
                     </div>
-                    </section>
-                </div>
 
-                <footer class="main-footer text-sm">
-                    <div class="float-right d-none d-sm-block">
-                        <b>Version</b> 1.0
-                    </div>
-                    <strong>Copyright &copy; 2020 <a href="http://localhost/andalalin">ANDALALIN</a></strong>
-                </footer>
+                    <footer class="main-footer text-sm">
+                        <div class="float-right d-none d-sm-block">
+                            <b>Version</b> 1.0
+                        </div>
+                        <strong>Copyright &copy; 2020 <a href="http://localhost/andalalin">ANDALALIN</a></strong>
+                    </footer>
                 </div>
 
                 <!-- pace-progress -->
@@ -299,25 +197,14 @@ class index
                 <script src="http://localhost/andalalin/assets/admin-lte-new/plugins/jquery/jquery.min.js"></script>
                 <!-- Bootstrap 4 -->
                 <script src="http://localhost/andalalin/assets/admin-lte-new/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-                <!-- Select2 -->
-                <script src="http://localhost/andalalin/assets/admin-lte-new/plugins/select2/js/select2.full.min.js"></script>
-
                 <!-- Toastr -->
                 <script src="http://localhost/andalalin/assets/admin-lte-new/plugins/toastr/toastr.min.js"></script>
-                <!-- InputMask -->
-                <script src="http://localhost/andalalin/assets/admin-lte-new/plugins/moment/moment.min.js"></script>
-                <script src="http://localhost/andalalin/assets/admin-lte-new/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
 
-
-                <!-- Tempusdominus Bootstrap 4 -->
-                <script src="http://localhost/andalalin/assets/admin-lte-new/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-                <!-- Bootstrap Switch -->
-                <script src="http://localhost/andalalin/assets/admin-lte-new/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
                 <!-- AdminLTE App -->
                 <script src="http://localhost/andalalin/assets/admin-lte-new/dist/js/adminlte.min.js"></script>
                 <!-- AdminLTE for demo purposes -->
                 <script src="http://localhost/andalalin/assets/admin-lte-new/dist/js/demo.js"></script>
-                <script src="http://localhost/andalalin/assets/admin-lte-new/plugins/sweetalert2/sweetalert2.min.js"></script>
+
                 <!-- SweetAlert2 -->
                 <link rel="stylesheet" href="http://localhost/andalalin/assets/admin-lte-new/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 
@@ -326,26 +213,21 @@ class index
                 <script src="http://localhost/andalalin/assets/admin-lte-new/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
                 <script src="http://localhost/andalalin/assets/admin-lte-new/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 
-                <script src="http://localhost/andalalin/assets/js/wow.min.js"></script>
-
                 <!-- Ekko Lightbox -->
                 <script src="http://localhost/andalalin/assets/admin-lte-new/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
                 <!-- Ion Slider -->
                 <script src="http://localhost/andalalin/assets/admin-lte-new/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
                 <!-- Bootstrap slider -->
                 <script src="http://localhost/andalalin/assets/admin-lte-new/plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
-
+                <script src="http://localhost/andalalin/assets/admin-lte-new/plugins/sweetalert2/sweetalert2.min.js"></script>
                 <script>
-                    var wow = new WOW();
-                    wow.init();
-
                     function success_alert(title, msg) {
                         Swal.fire({
                             icon: 'success',
                             title: title,
                             text: msg,
                             timer: 1500,
-                            footer: 'HORIZON EDUCATION',
+                            footer: 'ANDALALIN',
                             showCancelButton: false,
                             showConfirmButton: false
                         })
@@ -357,40 +239,11 @@ class index
                             icon: 'error',
                             title: title,
                             text: msg,
-                            footer: 'HORIZON EDUCATION',
+                            footer: 'ANDALALIN',
                         })
                     }
-
-                    function swal_progress() {
-                        let timerInterval
-                        Swal.fire({
-                            title: 'Auto close alert!',
-                            html: 'I will close in <b></b> milliseconds.',
-                            timer: 2000,
-                            timerProgressBar: true,
-                            onBeforeOpen: () => {
-                                Swal.showLoading()
-                                timerInterval = setInterval(() => {
-                                    const content = Swal.getContent()
-                                    if (content) {
-                                        const b = content.querySelector('b')
-                                        if (b) {
-                                            b.textContent = Swal.getTimerLeft()
-                                        }
-                                    }
-                                }, 100)
-                            },
-                            onClose: () => {
-                                clearInterval(timerInterval)
-                            }
-                        }).then((result) => {
-                            /* Read more about handling dismissals below */
-                            if (result.dismiss === Swal.DismissReason.timer) {
-                                console.log('I was closed by the timer')
-                            }
-                        })
-                    }
-
+                </script>
+                <script>
                     function swalDefaultSuccess(msg) {
                         toastr.success(msg);
                     };
@@ -411,105 +264,102 @@ class index
                         toastr.queueuestion(msg);
                     };
                 </script>
-
                 <script>
                     $(function() {
-                        //Initialize Select2 Elements
-                        $('.select2').select2()
-
-                        //Initialize Select2 Elements
-                        $('.select2bs4').select2({
-                            theme: 'bootstrap4'
-                        })
-
-                        //Datemask dd/mm/yyyy
-                        $('#datemask').inputmask('dd/mm/yyyy', {
-                            'placeholder': 'dd/mm/yyyy'
-                        })
-                        //Datemask2 mm/dd/yyyy
-                        $('#datemask2').inputmask('mm/dd/yyyy', {
-                            'placeholder': 'mm/dd/yyyy'
-                        })
-                        //Money Euro
-                        $('[data-mask]').inputmask()
-
-                        //Date range picker
-                        $('#reservation').daterangepicker()
-                        //Date range picker with time picker
-                        $('#reservationtime').daterangepicker({
-                            timePicker: true,
-                            timePickerIncrement: 30,
-                            format: 'L',
-                            locale: 'id'
-                        })
-                        //Date range as a button
-                        $('#daterange-btn').daterangepicker({
-                                ranges: {
-                                    'Today': [moment(), moment()],
-                                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                                    'This Month': [moment().startOf('month'), moment().endOf('month')],
-                                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                                },
-                                startDate: moment().subtract(29, 'days'),
-                                endDate: moment()
-                            },
-                            function(start, end) {
-                                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
-                            }
-                        )
-
-                        $('.timepicker').datetimepicker({
-                            // dateFormat: 'dd-mm-yy',
-                            format: 'L',
-                            locale: 'id'
+                        $('#dataTable').DataTable({
+                            "paging": true,
+                            "lengthChange": true,
+                            "searching": true,
+                            "ordering": true,
+                            "info": true,
+                            "autoWidth": true,
+                            'scrollY': 400,
+                            'scrollX': true,
                         });
-
-
-
-                        //Bootstrap Duallistbox
-                        $('.duallistbox').bootstrapDualListbox()
-
-                        //Colorpicker
-                        $('.my-colorpicker1').colorpicker()
-                        //color picker with addon
-                        $('.my-colorpicker2').colorpicker()
-
-                        $('.my-colorpicker2').on('colorpickerChange', function(event) {
-                            $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
-                        });
-
-                        $("input[data-bootstrap-switch]").each(function() {
-                            $(this).bootstrapSwitch('state', $(this).prop('checked'));
-                        });
-
-                    })
+                    });
                 </script>
+                <script>
+                    function verif_data(id) {
+                        var string = "no_reg=" + id + "&proses=update";
+                        $.ajax({
+                            type: 'POST',
+                            url: "views/verifikasi/verifikasi_permohonan.php",
+                            data: string,
+                            cache: false,
+                            success: function(data) {
+                                if (data == 1) {
+                                    Swal.fire({
+                                        type: 'success',
+                                        title: "Berhasil",
+                                        text: "Verifikasi Permohonan",
+                                        timer: 1500,
+                                        footer: 'ANDALALIN',
+                                        showCancelButton: false,
+                                        showConfirmButton: false
+                                    }).then(function() {
+                                        window.location = "http://localhost/andalalin/index.php?p=verifikasi";
+                                    })
+                                } else {
+                                    Swal.fire({
+                                        type: 'error',
+                                        title: "Gagal",
+                                        text: "Verifikasi Permohonan",
+                                        timer: 1500,
+                                        footer: 'ANDALALIN',
+                                        showCancelButton: false,
+                                        showConfirmButton: false
+                                    }).then(function() {
+                                        window.location = "http://localhost/andalalin/index.php?p=verifikasi";
+                                    })
+                                }
+                            }
+                        })
+                    }
 
+                    function delete_verif(id) {
+                        Swal.fire({
+                            title: 'Verifikasi Permohonan',
+                            text: "Apakah anda yakin ingin menghapus no registrasi " + id + " ?",
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ya'
+                        }).then((result) => {
+                            if (result.value) {
+                                var string = "no_reg=" + id + "&proses=delete";
+                                $.ajax({
+                                    type: 'POST',
+                                    url: "views/verifikasi/verifikasi_permohonan.php",
+                                    data: string,
+                                    cache: false,
+                                    success: function(data) {
+                                        if (data == 1) {
+                                            Swal.fire({
+                                                type: 'success',
+                                                title: "Berhasil",
+                                                text: "Verifikasi Permohonan dihapus",
+                                                timer: 1500,
+                                                footer: 'ANDALALIN',
+                                                showCancelButton: false,
+                                                showConfirmButton: false
+                                            }).then(function() {
+                                                window.location = "http://localhost/andalalin/index.php?p=verifikasi";
+                                            })
+                                        }
+                                    }
+                                })
+                            }
+                        })
+                    }
+                </script>
             </body>
 
         </html>
         <!-- copy -->
 
-
-        <div class="content mt-3">
-
-
-        </div> <!-- .content -->
-        <?php $this->loader(); ?>
-
-        <!-- Right Panel -->
-
-
-
-
-        </body>
-    <?php
-        } ?>
-
-    </html>
 <?php
+        }
     }
 
     function loader()
@@ -517,19 +367,19 @@ class index
         $koneksi = new koneksi();
         $pengguna = new pengguna();
         $perusahaan = new perusahaan();
-        $pemohon = new  pemohon();
-        $tinjauan = new  tinjauan();
-        $rekomendasi = new  rekomendasi();
+        $pemohon = new pemohon();
+        $rekomendasi = new rekomendasi();
+        $tinjauan = new tinjauan();
+        $saran = new saran();
+
         if (isset($_GET['p'])) {
-            if ($_GET['p'] == 'user') {
+            if ($_GET['p'] == 'verifikasi') {
                 /*User*/
-                include "views/user/tampil_user.php";
-            } elseif ($_GET['p'] == 'tambah_user') {
-                include_once "views/user/tambah_user.php";
-            } else if ($_GET['p'] == 'hapus_user') {
-                include_once "views/user/hapus_user.php";
-            } else if ($_GET['p'] == 'edit_user') {
-                include_once "views/user/edit_user.php";
+                include "views/verifikasi/tampil_verifikasi.php";
+            } else if ($_GET['p'] == 'detail_verifikasi') {
+                include_once "views/verifikasi/detail_verifikasi.php";
+            } else if ($_GET['p'] == 'edit_verifikasi') {
+                include_once "views/verifikasi/edit_verifikasi.php";
             }
             /*Customer*/ else if ($_GET['p'] == 'customer') {
                 include_once "views/customer/tampil_customer.php";
