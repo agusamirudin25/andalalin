@@ -31,6 +31,17 @@
 							</div>
 						</div>
 					</form>
+					<div class="container-login300-form-btn" style="margin-top: 2em;">
+						<div class="wrap-login300-form-btn">
+							<div class="login300-form-bgbtn" style="width: 100%;">
+								<div style="text-decoration: none; text-align: center; float: left;">
+									<a href="http://localhost/andalalin/registrasi.php" style="text-decoration: none;">
+										<i class="fa fa-address-card"></i> &nbsp; Registrasi
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="container-login300-form-btn">
 						<div class="container-login300-form-btn" style="text-align: center;">
 							<div class="text-center p-t-115" style="margin-top: -6.5em;">
@@ -81,21 +92,6 @@
 				$('.validate-password').addClass('alert-validate');
 				return false;
 			}
-			// var string = "username=" + username + "&password=" + password;
-			// $.ajax({
-			// 	type: 'POST',
-			// 	url: "class/koneksi.php",
-			// 	data: string,
-			// 	cache: false,
-			// 	dataType: "json",
-			// 	success: function(data) {
-			// 		if (data.login_status == 1) {
-			// 			success_alert(data.title, data.msg);
-			// 		} else {
-			// 			error_alert(data.title, data.msg);
-			// 		}
-			// 	}
-			// })
 		}
 	</script>
 
@@ -110,7 +106,7 @@
 				showCancelButton: false,
 				showConfirmButton: false
 			}).then(function() {
-				window.location = "http://localhost/andalalin/index.php?page=dashboard";
+				window.location = "http://localhost/andalalin/index.php?p=dashboard";
 			})
 		}
 
@@ -131,9 +127,16 @@ $al = '';
 if (isset($_POST['login'])) {
 	$koneksi = new koneksi();
 	$koneksi = $koneksi->conn;
-	$querylogin = $koneksi->query("SELECT * from pengguna WHERE nip = '$_POST[username]'");
-	if ($querylogin->num_rows > 0) {
-		$dataUser = $querylogin->fetch_assoc();
+	$nik        = htmlspecialchars($_POST['username']);
+	//cek pengguna
+	$queryPengguna      = $koneksi->query("SELECT * FROM pengguna WHERE nip = '$nik'");
+	$jmlbarisPengguna   = $queryPengguna->num_rows;
+
+	//cek pemohom
+	$queryPemohon       = $koneksi->query("SELECT * FROM pemohon WHERE nik = '$nik'");
+	$jmlbarisPemohon    = $queryPemohon->num_rows;
+	if ($jmlbarisPengguna == 1) {
+		$dataUser = $queryPengguna->fetch_assoc();
 		if (md5($_POST['password']) == $dataUser['katasandi']) {
 			$_SESSION['nip'] = $dataUser['nip'];
 			$_SESSION['nama'] = $dataUser['nama'];
@@ -150,7 +153,25 @@ if (isset($_POST['login'])) {
 			</script>
 		<?php
 		}
-	} else { ?>
+	} else if ($jmlbarisPemohon == 1) {
+		$dataUser = $queryPemohon->fetch_assoc();
+		if (md5($_POST['password']) == $dataUser['katasandi']) {
+			$_SESSION['nik'] = $dataUser['nik'];
+			$_SESSION['nama'] = $dataUser['nama'];
+		?>
+			<script>
+				success_alert('Berhasil', 'NIK atau NIP ditemukan!')
+			</script>
+		<?php
+			// $koneksi->Login($dataUser['id_user'], $dataUser['nama_user'], $dataUser['level']);
+		} else { ?>
+			<script>
+				error_alert('Gagal', 'NIK atau NIP tidak ditemukan!')
+			</script>
+		<?php
+		}
+	} else {
+		?>
 		<script>
 			error_alert('Gagal', 'NIK atau NIP tidak ditemukan!')
 		</script>

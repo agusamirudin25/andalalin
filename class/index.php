@@ -6,6 +6,7 @@ class index
     function index()
     {
         $_SESSION['nip'] = isset($_SESSION['nip']) ? $_SESSION['nip'] : '';
+        $_SESSION['nik'] = isset($_SESSION['nik']) ? $_SESSION['nik'] : '';
 
         require_once "class/koneksi.php";
         require_once "class/pengguna.php";
@@ -19,8 +20,8 @@ class index
         $pengguna = new pengguna();
         $perusahaan = new perusahaan();
         $pemohon = new pemohon();
-        $rekomendasi = new rekomendasi();
-        $tinjauan = new tinjauan();
+        $rekomendasi = new Rekomendasi();
+        $tinjauan = new Tinjauan();
         $saran = new saran();
 
         $_GET['p'] = isset($_GET['p']) ? $_GET['p'] : false;
@@ -61,7 +62,7 @@ class index
 
         </head>
         <?php
-        if ($_SESSION['nip'] == '') {
+        if ($_SESSION['nip'] == '' && $_SESSION['nik'] == '') {
             self::form_login();
         } elseif ($_GET['p'] == 'logout') {
             include_once "views/pengguna/logout.php";
@@ -109,8 +110,7 @@ class index
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a href="http://localhost/andalalin/index.php?p=logout" class="nav-link">
-                                    <i class="fa fa-power-off" id="logout"></i>
+                                <a href="#" class="nav-link"> <i class="fa fa-power-off" id="logout"></i>
                                 </a>
                             </li>
                         </ul>
@@ -125,7 +125,17 @@ class index
                                     <img src="http://localhost/andalalin/images/default.png" class="img-circle elevation-2" alt="User Image">
                                 </div>
                                 <div class="info">
-                                    <a href="#" class="d-block">Administrator</a>
+                                    <a href="#" class="d-block"><?php if ($_SESSION['nik'] != '') {
+                                                                    echo $_SESSION['nama'];
+                                                                } else if ($_SESSION['nip'] != '') {
+                                                                    if ($_SESSION['level'] == 'admin') {
+                                                                        echo strtoupper($_SESSION['jabatan']);
+                                                                    } else if ($_SESSION['level'] == 'kabid') {
+                                                                        echo strtoupper($_SESSION['jabatan']);
+                                                                    } else if ($_SESSION['level'] == 'kadis') {
+                                                                        echo strtoupper($_SESSION['jabatan']);
+                                                                    }
+                                                                } ?></a>
                                 </div>
                             </div>
 
@@ -139,30 +149,69 @@ class index
                                             </p>
                                         </a>
                                     </li>
-                                    <li class="nav-item has-treeview">
-                                        <a href="http://localhost/andalalin/index.php?p=verifikasi" class="nav-link">
-                                            <i class="nav-icon fa fa-check"></i>
-                                            <p>
-                                                Verifikasi Permohonan
-                                            </p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item has-treeview">
-                                        <a href="http://localhost/andalalin/index.php?p=verifikasi" class="nav-link">
-                                            <i class="nav-icon fa fa-bus-alt"></i>
-                                            <p>
-                                                Tinjau Permohonan
-                                            </p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item has-treeview">
-                                        <a href="http://localhost/andalalin/index.php?p=verifikasi" class="nav-link">
-                                            <i class="nav-icon fa fa-balance-scale"></i>
-                                            <p>
-                                                Rekomendasi
-                                            </p>
-                                        </a>
-                                    </li>
+                                    <!-- Menu Pemohon -->
+
+                                    <!-- Menu Pemohon -->
+
+                                    <!-- Menu Pengguna -->
+                                    <?php if ($_SESSION['nip'] != '') :
+                                        if ($_SESSION['level'] == 'admin') : ?>
+                                            <li class="nav-item has-treeview">
+                                                <a href="http://localhost/andalalin/index.php?p=verifikasi" class="nav-link">
+                                                    <i class="nav-icon fa fa-check"></i>
+                                                    <p>
+                                                        Verifikasi Permohonan
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        <?php endif;
+                                        if ($_SESSION['level'] == 'kabid') : ?>
+                                            <li class="nav-item has-treeview">
+                                                <a href="http://localhost/andalalin/index.php?p=tinjauan" class="nav-link">
+                                                    <i class="nav-icon fa fa-bus-alt"></i>
+                                                    <p>
+                                                        Tinjau Permohonan
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        <?php endif;
+                                        if ($_SESSION['level'] == 'kadis') : ?>
+                                            <li class="nav-item has-treeview">
+                                                <a href="http://localhost/andalalin/index.php?p=rekomendasi" class="nav-link">
+                                                    <i class="nav-icon fa fa-balance-scale"></i>
+                                                    <p>
+                                                        Rekomendasi
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        <?php endif;
+                                    else : ?>
+                                        <li class="nav-item has-treeview">
+                                            <a href="http://localhost/andalalin/index.php?p=permohonan" class="nav-link">
+                                                <i class="nav-icon fa fa-file-medical"></i>
+                                                <p>
+                                                    Buat Permohonan
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item has-treeview">
+                                            <a href="http://localhost/andalalin/index.php?p=kelola_permohonan" class="nav-link">
+                                                <i class="nav-icon fa fa-id-badge"></i>
+                                                <p>
+                                                    Kelola Permohonan
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item has-treeview">
+                                            <a href="http://localhost/andalalin/index.php?p=saran" class="nav-link">
+                                                <i class="nav-icon fa fa-book"></i>
+                                                <p>
+                                                    Saran
+                                                </p>
+                                            </a>
+                                        </li>
+                                    <?php endif; ?>
+                                    <!-- Menu Pemohon -->
                                 </ul>
                             </nav>
                         </div>
@@ -276,6 +325,19 @@ class index
                             'scrollY': 400,
                             'scrollX': true,
                         });
+                        $("#logout").click(function() {
+                            Swal.fire({
+                                type: 'success',
+                                title: "Berhasil",
+                                text: "Keluar",
+                                timer: 1500,
+                                footer: 'ANDALALIN',
+                                showCancelButton: false,
+                                showConfirmButton: false
+                            }).then(function() {
+                                window.location = "http://localhost/andalalin/index.php?p=logout";
+                            })
+                        });
                     });
                 </script>
                 <script>
@@ -352,6 +414,82 @@ class index
                             }
                         })
                     }
+
+                    // fungsi tinjauan
+                    function verif_tinjauan(id, msg, nip) {
+                        var string = "kode_tinjauan=" + id + "&msg=" + msg + "&nip=" + nip;
+                        $.ajax({
+                            type: 'POST',
+                            url: "views/tinjauan/verifikasi_tinjauan.php",
+                            data: string,
+                            cache: false,
+                            success: function(data) {
+                                if (data == 1) {
+                                    Swal.fire({
+                                        type: 'success',
+                                        title: "Berhasil",
+                                        text: "Tinjauan Permohonan",
+                                        timer: 1500,
+                                        footer: 'ANDALALIN',
+                                        showCancelButton: false,
+                                        showConfirmButton: false
+                                    }).then(function() {
+                                        window.location = "http://localhost/andalalin/index.php?p=tinjauan";
+                                    })
+                                } else {
+                                    Swal.fire({
+                                        type: 'error',
+                                        title: "Gagal",
+                                        text: "Tinjauan Permohonan",
+                                        timer: 1500,
+                                        footer: 'ANDALALIN',
+                                        showCancelButton: false,
+                                        showConfirmButton: false
+                                    }).then(function() {
+                                        window.location = "http://localhost/andalalin/index.php?p=tinjauan";
+                                    })
+                                }
+                            }
+                        })
+                    }
+
+                    // fungsi verif rekomendasi
+                    function verif_rekomendasi(id, msg, nip) {
+                        var string = "kode_rekomendasi=" + id + "&msg=" + msg + "&nip=" + nip;
+                        $.ajax({
+                            type: 'POST',
+                            url: "views/rekomendasi/verifikasi_rekomendasi.php",
+                            data: string,
+                            cache: false,
+                            success: function(data) {
+                                if (data == 1) {
+                                    Swal.fire({
+                                        type: 'success',
+                                        title: "Berhasil",
+                                        text: "Rekomendasi Permohonan",
+                                        timer: 1500,
+                                        footer: 'ANDALALIN',
+                                        showCancelButton: false,
+                                        showConfirmButton: false
+                                    }).then(function() {
+                                        window.location = "http://localhost/andalalin/index.php?p=rekomendasi";
+                                    })
+                                } else {
+                                    Swal.fire({
+                                        type: 'error',
+                                        title: "Gagal",
+                                        text: "Rekomendasi Permohonan",
+                                        timer: 1500,
+                                        footer: 'ANDALALIN',
+                                        showCancelButton: false,
+                                        showConfirmButton: false
+                                    }).then(function() {
+                                        window.location = "http://localhost/andalalin/index.php?p=rekomendasi";
+                                    })
+                                }
+                            }
+                        })
+                    }
                 </script>
             </body>
 
@@ -368,76 +506,31 @@ class index
         $pengguna = new pengguna();
         $perusahaan = new perusahaan();
         $pemohon = new pemohon();
-        $rekomendasi = new rekomendasi();
-        $tinjauan = new tinjauan();
+        $rekomendasi = new Rekomendasi();
+        $tinjauan = new Tinjauan();
         $saran = new saran();
 
         if (isset($_GET['p'])) {
             if ($_GET['p'] == 'verifikasi') {
-                /*User*/
                 include "views/verifikasi/tampil_verifikasi.php";
             } else if ($_GET['p'] == 'detail_verifikasi') {
                 include_once "views/verifikasi/detail_verifikasi.php";
-            } else if ($_GET['p'] == 'edit_verifikasi') {
-                include_once "views/verifikasi/edit_verifikasi.php";
             }
-            /*Customer*/ else if ($_GET['p'] == 'customer') {
-                include_once "views/customer/tampil_customer.php";
-            } else if ($_GET['p'] == 'tambah_customer') {
-                include_once "views/customer/tambah_customer.php";
-            } else if ($_GET['p'] == 'hapus_customer') {
-                include_once "views/customer/hapus_customer.php";
-            } else if ($_GET['p'] == 'edit_customer') {
-                include_once "views/customer/edit_customer.php";
+
+            /*permohonan*/ else if ($_GET['p'] == 'permohonan') {
+                include_once "views/perusahaan/tambah_perusahaan.php";
             }
-            /*Keranjang*/ else if ($_GET['p'] == 'keranjang') {
-                include_once "views/keranjang/tampil_keranjang.php";
-            } else if ($_GET['p'] == 'hapus_keranjang') {
-                include_once "views/keranjang/hapus_keranjang.php";
-            } else if ($_GET['p'] == 'tambah_keranjang') {
-                include_once "views/keranjang/tambah_keranjang.php";
+
+            /*saran*/ else if ($_GET['p'] == 'saran') {
+                include_once "views/saran/buat_saran.php";
             }
-            /*Barang*/ else if ($_GET['p'] == 'barang') {
-                include_once "views/barang/tampil_barang.php";
-            } else if ($_GET['p'] == 'tambah_barang') {
-                include_once "views/barang/tambah_barang.php";
-            } else if ($_GET['p'] == 'edit_barang') {
-                include_once "views/barang/edit_barang.php";
-            } else if ($_GET['p'] == 'hapus_barang') {
-                include_once "views/barang/hapus_barang.php";
+
+            /*tinjauan*/ else if ($_GET['p'] == 'tinjauan') {
+                include_once "views/tinjauan/tampil_tinjauan.php";
             }
-            /*Surat jalan*/ else if ($_GET['p'] == 'surat_jalan') {
-                include_once "views/surat_jalan/tampil_surat_jalan.php";
-            } else if ($_GET['p'] == 'tambah_surat_jalan') {
-                include_once "views/surat_jalan/tambah_surat_jalan.php";
-            } else if ($_GET['p'] == 'hapus_surat_jalan') {
-                include_once "views/surat_jalan/hapus_surat_jalan.php";
-            } else if ($_GET['p'] == 'data_surat_jalan') {
-                include_once "views/surat_jalan/data_surat_jalan.php";
-            } else if ($_GET['p'] == 'detail_surat_jalan') {
-                include_once "views/surat_jalan/detail_surat_jalan.php";
-            }
-            /*Order*/ else if ($_GET['p'] == 'po') {
-                include_once "views/po/tampil_po.php";
-            } else if ($_GET['p'] == 'tambah_po') {
-                include_once "views/po/tambah_po.php";
-            } else if ($_GET['p'] == 'detail_po') {
-                include_once "views/po/detail_po.php";
-            } else if ($_GET['p'] == 'hapus_po') {
-                include_once "views/po/hapus_po.php";
-            } else if ($_GET['p'] == 'proses_transaksi') {
-                include_once "views/po/proses_transaksi.php";
-            }
-            /*Penjualan*/ else if ($_GET['p'] == 'data_penjualan') {
-                include_once "views/penjualan/data_penjualan.php";
-            } else if ($_GET['p'] == 'tambah_penjualan') { //dn
-                include_once "views/penjualan/tambah_penjualan.php";
-            } else if ($_GET['p'] == 'hapus_penjualan') { //dn
-                include_once "views/penjualan/hapus_penjualan.php";
-            } else if ($_GET['p'] == 'proses') {
-                include_once "views/penjualan/proses.php";
-            } else if ($_GET['p'] == 'detail_penjualan') { //dn
-                include_once "views/penjualan/detail_penjualan.php";
+
+            /*rekomendasi*/ else if ($_GET['p'] == 'rekomendasi') {
+                include_once "views/rekomendasi/tampil_rekomendasi.php";
             }
 
             /*Laporan*/ else if ($_GET['p'] == 'laporan') {

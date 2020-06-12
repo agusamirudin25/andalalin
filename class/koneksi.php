@@ -22,10 +22,10 @@ class koneksi
     public function logout()
     {
         unset($_SESSION['nip']);
+        unset($_SESSION['nik']);
         unset($_SESSION['nama']);
         unset($_SESSION['jabatan']);
         unset($_SESSION['level']);
-        echo "<script> success_alert('Logout', 'Berhasil') </script>";
         echo "<script> window.location='index.php'; </script>";
     }
 }

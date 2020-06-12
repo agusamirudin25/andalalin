@@ -11,7 +11,7 @@
  Target Server Version : 100406
  File Encoding         : 65001
 
- Date: 09/06/2020 20:17:09
+ Date: 11/06/2020 15:09:13
 */
 
 SET NAMES utf8mb4;
@@ -93,17 +93,16 @@ CREATE TABLE `perusahaan`  (
   `kriteria_pembangunan` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `jumlah_pembangunan` int(5) NOT NULL,
   `jumlah_ruang_terbangun` int(5) NOT NULL,
-  `tanggal_daftar` date NOT NULL,
+  `status` int(1) NULL DEFAULT NULL,
+  `tanggal_daftar` datetime(0) NOT NULL DEFAULT current_timestamp(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`no_registrasi`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of perusahaan
 -- ----------------------------
-INSERT INTO `perusahaan` VALUES ('R191209001', '3253736256736', '3210122508960001', 'PT Pusaka Abadi', '83929282', '2019-11-06', 'akte_R191209001.pdf', '32234839283383', 'PT Pusaka Abadi', 'Rawamerta', 'npwp_R191209001.pdf', '24', '2019-11-14', 'Ruko Mas', 'Kedungwaringin', '20', 'bpn_R191209001.pdf', '23', '2019-11-19', 'djsahdjhasdhsdj', '22', '2019-11-13', 'kriteria_R191209001.pdf', 12, 3, '0000-00-00');
-INSERT INTO `perusahaan` VALUES ('R191209002', '2317363728', '3210122508960002', 'PT Makmur Sentosa', 'A/20-2019', '2019-12-02', 'akte_R191209002.pdf', '237327627626', 'PT Makmur Sentosa', 'Jl Rengasdengklok No 5', 'npwp_R191209002.pdf', '7', '2019-12-01', 'Pemukiman', 'Rengasdengklok', '23', 'bpn_R191209002.pdf', '3', '2019-12-01', 'Pemukiman warga', '23', '2019-12-02', 'kriteria_R191209002.pdf', 62, 6, '2019-12-09');
-INSERT INTO `perusahaan` VALUES ('R191210003', '2333323333', '3210122508960001', 'PT Makmur Sentosa', '38272837625', '2019-12-02', 'akte_R191210003.pdf', '233333433333', 'PT Makmur Sentosa', 'Jl Rengasdengklok No 5', 'npwp_R191210003.pdf', '7', '2019-12-02', 'Pemukiman', 'Rengasdengklok', '2', 'bpn_R191210003.pdf', '23', '2019-12-03', 'Pemukiman warga', '344', '2019-12-03', 'kriteria_R191210003.pdf', 34, 2, '2019-12-10');
-INSERT INTO `perusahaan` VALUES ('R191210004', '2333', '3210122508960001', 'PT Perwira Merah Merpati', 'A/20-2019', '2019-10-16', 'akte_R191210004.pdf', '3324242424242', 'PT Perwira Merah Merpati', 'Jl Rengasdengklok No 45', 'npwp_R191210004.pdf', '72', '2019-11-13', 'Pemukiman', 'Rengasdengklok', '23', 'bpn_R191210004.pdf', '23', '2019-09-18', 'Pemukiman warga', '32', '2019-12-04', 'kriteria_R191210004.pdf', 23, 2, '2019-12-10');
+INSERT INTO `perusahaan` VALUES ('R191209002', '2317363728', '3210122508960002', 'PT Makmur Sentosa', 'A/20-2019', '2019-12-02', 'akte_R191209002.pdf', '237327627626', 'PT Makmur Sentosa', 'Jl Rengasdengklok No 5', 'npwp_R191209002.pdf', '7', '2019-12-01', 'Pemukiman', 'Rengasdengklok', '23', 'bpn_R191209002.pdf', '3', '2019-12-01', 'Pemukiman warga', '23', '2019-12-02', 'kriteria_R191209002.pdf', 62, 6, 0, '2020-06-11 01:55:22');
+INSERT INTO `perusahaan` VALUES ('R191210003', '2333323333', '3210122508960001', 'PT Makmur Sentosa', '38272837625', '2019-12-02', 'akte_R191210003.pdf', '233333433333', 'PT Makmur Sentosa', 'Jl Rengasdengklok No 5', 'npwp_R191210003.pdf', '7', '2019-12-02', 'Pemukiman', 'Rengasdengklok', '2', 'bpn_R191210003.pdf', '23', '2019-12-03', 'Pemukiman warga', '344', '2019-12-03', 'kriteria_R191210003.pdf', 34, 2, 1, '2020-06-11 02:04:37');
 
 -- ----------------------------
 -- Table structure for rekomendasi
@@ -114,16 +113,16 @@ CREATE TABLE `rekomendasi`  (
   `kode_tinjauan` varchar(6) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `nik` varchar(16) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `no_registrasi` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `nip` varchar(22) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `nip` varchar(22) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `keterangan` varchar(16) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `tanggal` datetime(0) NOT NULL,
+  `tanggal` datetime(0) NOT NULL DEFAULT current_timestamp(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`kode_rekomendasi`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of rekomendasi
 -- ----------------------------
-INSERT INTO `rekomendasi` VALUES ('R0001', 'T0001', '3210122508960001', 'R191209001', '196808161989031007', 'sesuai', '2019-12-10 19:57:46');
+INSERT INTO `rekomendasi` VALUES ('R0001', 'R0001', '3210122508960001', 'R191210003', '1111', '2', '2020-06-11 02:05:02');
 
 -- ----------------------------
 -- Table structure for saran
@@ -152,17 +151,15 @@ CREATE TABLE `tinjauan`  (
   `kode_tinjauan` varchar(6) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `nik` varchar(16) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `no_registrasi` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `nip` varchar(22) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `nip` varchar(22) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `keterangan` varchar(16) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `tanggal` datetime(0) NOT NULL,
+  `tanggal` datetime(0) NOT NULL DEFAULT current_timestamp(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`kode_tinjauan`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tinjauan
 -- ----------------------------
-INSERT INTO `tinjauan` VALUES ('T0001', '3210122508960001', 'R191209001', '1977206021994031006', 'sesuai', '2019-12-10 12:12:36');
-INSERT INTO `tinjauan` VALUES ('T0003', '3210122508960002', 'R191209002', '1977206021994031006', 'sesuai', '2019-12-10 17:14:23');
-INSERT INTO `tinjauan` VALUES ('T0004', '3210122508960001', 'R191210003', '1977206021994031006', 'sesuai', '2019-12-11 00:14:39');
+INSERT INTO `tinjauan` VALUES ('R0001', '3210122508960001', 'R191210003', '1111', '1', '2020-06-11 02:04:46');
 
 SET FOREIGN_KEY_CHECKS = 1;

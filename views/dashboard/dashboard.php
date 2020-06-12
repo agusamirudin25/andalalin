@@ -26,7 +26,13 @@
 
                   <div class="timeline-item">
                     <span class="time"><i class="far fa-clock"></i> 12:05</span>
-                    <h3 class="timeline-header"><a href="#">Hai, <strong><em>Administrator</em></strong> Selamat Datang di Website ANDALALIN</a></h3>
+                    <h3 class="timeline-header"><a href="#">Hai, <strong><em><?php if ($_SESSION['nik'] != '') {
+                                                                                echo $_SESSION['nama'];
+                                                                              } else if ($_SESSION['nip'] != '') {
+                                                                                if ($_SESSION['level'] == 'admin') {
+                                                                                  echo $_SESSION['jabatan'];
+                                                                                }
+                                                                              } ?></em></strong> Selamat Datang di Website ANDALALIN</a></h3>
                     <div class="timeline-body">
                       Semua pemohon mendaftarkan dirinya melalui website resmi
                     </div>

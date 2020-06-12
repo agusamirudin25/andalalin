@@ -39,7 +39,7 @@
 											<a href="?p=detail_verifikasi&no_reg=<?= $data_perusahaan['no_registrasi'] ?>">
 												<button class="btn btn-sm btn-primary btn-custom" title="detail"><span class="fa fa-eye"></span></button>
 											</a>
-											<button class="btn btn-sm btn-success btn-custom" onclick="verif_data('<?= $data_perusahaan['no_registrasi'] ?>')" title="verif"><span class="fa fa-check-square"></span></button>
+											<button class="btn btn-sm <?= ($data_perusahaan['status'] == 0) ? 'btn-warning' : 'btn-success' ?> btn-custom" title="<?= ($data_perusahaan['status'] == 0) ? 'Belum Verif' : 'Sudah Verif' ?>"><span class="fa <?= ($data_perusahaan['status'] == 0) ? 'fa-dna' : 'fa-check-square' ?> "></span></button>
 											<button class="btn btn-sm btn-danger btn-custom" onclick="delete_verif('<?= $data_perusahaan['no_registrasi'] ?>')" title="hapus"><span class="fa fa-trash"></span></button>
 										</td>
 								<?php
