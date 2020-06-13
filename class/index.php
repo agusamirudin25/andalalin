@@ -519,6 +519,12 @@ class index
 
             /*permohonan*/ else if ($_GET['p'] == 'permohonan') {
                 include_once "views/perusahaan/tambah_perusahaan.php";
+            } else if ($_GET['p'] == 'kelola_permohonan') {
+                include_once "views/perusahaan/kelola_perusahaan.php";
+            } else if ($_GET['p'] == 'detail_permohonan') {
+                include_once "views/perusahaan/detail_perusahaan.php";
+            } else if ($_GET['p'] == 'edit_permohonan') {
+                include_once "views/perusahaan/edit_perusahaan.php";
             }
 
             /*saran*/ else if ($_GET['p'] == 'saran') {

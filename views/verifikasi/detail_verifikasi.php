@@ -3,25 +3,6 @@
 $no_reg = $_GET['no_reg'];
 $data = $perusahaan->detail_perusahaan($no_reg);
 
-
-if (isset($_POST['simpan'])) {
-  $nama_customer = trim(ucwords($_POST['nama_customer']));
-  $no_tlp = trim(ucwords($_POST['no_tlp']));
-  $alamat = trim(ucwords($_POST['alamat']));
-
-  $error = array();
-  if (isset($error)) {
-    foreach ($error as $key => $values) {
-      echo $values; //tampilkan semua error
-    }
-  }
-
-  if (count($error) == 0) //jika tidak ada error
-  {
-    $customer->edit_customer($kode_customer, $nama_customer, $no_tlp, $alamat); //edit data
-    $customer->detail_customer($kode_customer);
-  }
-}
 ?>
 
 <div class="row text-sm">
